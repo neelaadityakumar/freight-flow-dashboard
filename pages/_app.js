@@ -1,5 +1,11 @@
-import "leaflet/dist/leaflet.css"; // Import Leaflet CSS
-import "@/styles/globals.css"; // Import Tailwind CSS
+import "leaflet/dist/leaflet.css";
+import "@/styles/globals.css";
+import { AuthProvider } from "@/context/Auth";
+
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 }

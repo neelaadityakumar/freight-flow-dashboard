@@ -7,52 +7,89 @@ export default function DeliveryMap() {
   const destination = [37.8044, -122.2712]; // Destination: Example coordinates (Oakland)
   const currentLocation = [37.7833, -122.4167]; // Current location
 
-  const routePoints = [origin, currentLocation, destination];
+  // Helper to create a green circle icon for the origin
+  const originIcon = L.divIcon({
+    className: "origin-icon",
+    html: `
+      <div style="
+        background-color: green;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        color: white;
+        font-weight: bold;
+        font-size: 14px;">
+        O
+      </div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
 
-  // Helper to create an SVG string from a React component
-  const createSVGIcon = (SVGPath) => {
-    const svgString = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">${SVGPath}</svg>`;
-    return L.divIcon({
-      html: svgString,
-      className: "",
-      iconSize: [25, 25],
-      iconAnchor: [12, 12],
-    });
-  };
+  // Helper to create a blue checkpoint icon for the destination
+  const destinationIcon = L.divIcon({
+    className: "destination-icon",
+    html: `
+      <div style="
+        background-color: blue;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        color: white;
+        font-weight: bold;
+        font-size: 14px;">
+        D
+      </div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
 
-  // SVG strings from Heroicons for each location
-  const originIcon = createSVGIcon(
-    '<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M9 21V9h6v12"/>'
-  );
-  const currentLocationIcon = createSVGIcon(
-    '<path stroke-linecap="round" stroke-linejoin="round" d="M12 11c-1.38 0-2.5 1.12-2.5 2.5S10.62 16 12 16s2.5-1.12 2.5-2.5S13.38 11 12 11z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a10 10 0 00-10 10c0 5.52 4.48 10 10 10s10-4.48 10-10c0-5.52-4.48-10-10-10zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>'
-  );
-  const destinationIcon = createSVGIcon(
-    '<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 19.5h7.5M8.25 16.5h7.5m-6.75-6.75L12 6l3.75 3.75M12 6v10.5"/>'
-  );
+  // Helper to create a chevron icon for the current location
+  const chevronIcon = L.divIcon({
+    className: "current-location-icon",
+    html: `
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+        <!-- Outer blue circle -->
+        <circle cx="15" cy="15" r="15" fill="blue" />
+        <!-- Inner triangle -->
+        <polygon points="15,7 22,20 8,20" fill="white" />
+      </svg>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <h2 className="text-lg font-semibold mb-2">On the way</h2>
       <MapContainer
-        center={origin}
+        center={currentLocation}
         zoom={12}
-        scrollWheelZoom={false}
-        className="h-[230px] w-[600px]" // Set map size to 200x200
+        scrollWheelZoom={true}
+        className="h-[230px] w-[50%s]" // Set map size
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="© OpenStreetMap contributors"
+          // attribution="© OpenStreetMap contributors"
         />
         {/* Origin marker */}
         <Marker position={origin} icon={originIcon} />
         {/* Current location marker */}
-        <Marker position={currentLocation} icon={currentLocationIcon} />
+        <Marker position={currentLocation} icon={chevronIcon} />
         {/* Destination marker */}
         <Marker position={destination} icon={destinationIcon} />
+
         {/* Route polyline */}
-        <Polyline positions={routePoints} color="blue" />
+        <Polyline positions={[origin, currentLocation]} color="green" />
+        <Polyline positions={[currentLocation, destination]} color="blue" />
       </MapContainer>
+
       <div className="flex justify-between mt-4">
         <div>
           <p className="font-medium">Category</p>
