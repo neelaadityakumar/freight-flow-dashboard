@@ -8,61 +8,24 @@ export default function DeliveryMap() {
   const currentLocation = [37.7833, -122.4167]; // Current location
 
   // Helper to create a green circle icon for the origin
-  const originIcon = L.divIcon({
-    className: "origin-icon",
-    html: `
-      <div style="
-        background-color: green;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        color: white;
-        font-weight: bold;
-        font-size: 14px;">
-        O
-      </div>`,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
+  const originIcon = L.icon({
+    iconUrl: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
   });
 
-  // Helper to create a blue checkpoint icon for the destination
-  const destinationIcon = L.divIcon({
-    className: "destination-icon",
-    html: `
-      <div style="
-        background-color: blue;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        color: white;
-        font-weight: bold;
-        font-size: 14px;">
-        D
-      </div>`,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
+  // Helper to create a google map destination icon for the destination
+  const destinationIcon = L.icon({
+    iconUrl: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
   });
 
-  // Helper to create a chevron icon for the current location
-  const chevronIcon = L.divIcon({
-    className: "current-location-icon",
-    html: `
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
-        <!-- Outer blue circle -->
-        <circle cx="15" cy="15" r="15" fill="blue" />
-        <!-- Inner triangle -->
-        <polygon points="15,7 22,20 8,20" fill="white" />
-      </svg>`,
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
+  // Helper to create a google map van icon for the current location
+  const vanIcon = L.icon({
+    iconUrl: "https://maps.google.com/mapfiles/kml/shapes/truck.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
   });
 
   return (
@@ -81,7 +44,7 @@ export default function DeliveryMap() {
         {/* Origin marker */}
         <Marker position={origin} icon={originIcon} />
         {/* Current location marker */}
-        <Marker position={currentLocation} icon={chevronIcon} />
+        <Marker position={currentLocation} icon={vanIcon} />
         {/* Destination marker */}
         <Marker position={destination} icon={destinationIcon} />
 
